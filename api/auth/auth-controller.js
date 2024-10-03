@@ -19,7 +19,14 @@ const auth_controller = {
       if (!user || !(await User.verify_password(user, password))) {
         return res.status(401).json({ error: "Invaild Credentials" });
       }
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "1d"});
+      const token = jwt.sign(
+        { 
+          userId: user.id, 
+          role: user.role 
+        }, 
+        process.env.JWT_SECRET, 
+        { expiresIn: '1d' }
+      );
       res.json({ token });
     } catch (error) {
       next(error);

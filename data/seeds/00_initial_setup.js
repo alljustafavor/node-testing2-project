@@ -4,40 +4,44 @@ const bcrypt = require('bcrypt');
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries
   await knex('tasks').del();
   await knex('categories').del();
   await knex('users').del();
 
-  // Insert sample users
   const users = await knex('users').insert([
+    {
+      username: 'admin_user',
+      email: 'admin@example.com',
+      password: await bcrypt.hash('adminpassword', 10),
+      role: 'admin'
+    },
     {
       username: 'john_doe',
       email: 'john@example.com',
-      password: await bcrypt.hash('password123', 10)
+      password: await bcrypt.hash('password123', 10),
+      role: 'user'
     },
     {
       username: 'jane_smith',
       email: 'jane@example.com',
-      password: await bcrypt.hash('password456', 10)
+      password: await bcrypt.hash('password456', 10),
+      role: 'user'
     }
   ]).returning('id');
 
-  // Insert sample categories
   const categories = await knex('categories').insert([
     { name: 'Work' },
     { name: 'Personal' },
     { name: 'Study' }
   ]).returning('id');
 
-  // Insert sample tasks
   await knex('tasks').insert([
     {
       title: 'Complete project proposal',
       description: 'Draft and submit the project proposal for the new client',
       status: 'in_progress',
       due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-      user_id: users[0].id,
+      user_id: users[1].id,
       category_id: categories[0].id
     },
     {
@@ -45,7 +49,7 @@ exports.seed = async function(knex) {
       description: 'Go to the gym for a 1-hour workout session',
       status: 'pending',
       due_date: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day from now
-      user_id: users[0].id,
+      user_id: users[1].id,
       category_id: categories[1].id
     },
     {
@@ -53,7 +57,7 @@ exports.seed = async function(knex) {
       description: 'Review chapters 5-8 for upcoming exam',
       status: 'pending',
       due_date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
-      user_id: users[1].id,
+      user_id: users[2].id,
       category_id: categories[2].id
     },
     {
@@ -61,7 +65,7 @@ exports.seed = async function(knex) {
       description: 'Attend weekly team meeting',
       status: 'completed',
       due_date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
-      user_id: users[1].id,
+      user_id: users[2].id,
       category_id: categories[0].id
     }
   ]);

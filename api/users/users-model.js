@@ -5,7 +5,7 @@ const User = {
   async find_all() {
     return await db("users"); 
   },
-  
+
   async create(user_data) {
     const { username, email, password } = user_data;
     const hashed_password = bcrypt.hashSync(password, 10);
@@ -37,6 +37,11 @@ const User = {
     return db("users")
       .where("id", id)
       .del();
+  },
+
+  async updateRole(id, role) {
+    await db('users').where({ id }).update({ role });
+    return this.findById(id);
   }
 };
 

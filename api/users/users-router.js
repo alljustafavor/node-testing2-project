@@ -1,8 +1,6 @@
-// src/users/users-router.js
 const express = require('express');
 const router = express.Router();
 const users_controller = require('./users-controller');
-//const auth_middleware = require('../middlewares/auth-middleware');
 
 router.get('/me', users_controller.get_current_user);
 
