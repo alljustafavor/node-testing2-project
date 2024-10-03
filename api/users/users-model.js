@@ -14,7 +14,16 @@ const User = {
       email,
       password: hashed_password
     });
-    return this.findById(id);
+    return this.get_by_id(id);
+  },
+
+  async update(id, user_data) {
+    if (user_data.password) {
+      user_data.password = bcrypt.hashSync(user_data.password, 10);
+    }
+
+    await db('users').where({ id }).update(user_data);
+    return this.get_by_id(id);
   },
 
   async get_by_id(id) {
@@ -41,7 +50,7 @@ const User = {
 
   async update_role(id, role) {
     await db('users').where({ id }).update({ role });
-    return this.findById(id);
+    return this.get_by_id(id);
   }
 };
 

@@ -16,13 +16,16 @@ const users_controller = {
 
   async update_user(req, res, next) {
     try {
-      const { username, email } = req.body;
-      const updated_user = await User.create(req.user_id, { username, email });
-      if (!updated_user) {
-        res.status(404).json({ message: "User not found" });
+      const { id } = req.params;
+      const updates = req.body;
+
+      const updatedUser = await User.update(id, updates);
+
+      if (updatedUser) {
+        res.json(updatedUser);
+      } else {
+        res.status(404).json({ message: 'User not found' });
       }
-      const { password, ...user_without_password } = updated_user; // eslint-disable-line
-      res.json(user_without_password);
     } catch (error) {
       next(error);
     }
