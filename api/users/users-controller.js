@@ -7,7 +7,7 @@ const users_controller = {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      const { password, ...user_without_password } = user;
+      const { password, ...user_without_password } = user; // eslint-disable-line
       res.json(user_without_password);
     } catch (error) {
       next(error);
@@ -21,7 +21,7 @@ const users_controller = {
       if (!updated_user) {
         res.status(404).json({ message: "User not found" });
       }
-      const { password, ...user_without_password } = updated_user;
+      const { password, ...user_without_password } = updated_user; // eslint-disable-line
       res.json(user_without_password);
     } catch (error) {
       next(error);
@@ -37,7 +37,7 @@ const users_controller = {
       }
 
       const users_without_passwords = users.map(user => {
-        const { password, ...user_without_password } = user;
+        const { password, ...user_without_password } = user; // eslint-disable-line
         return user_without_password;
       });
 
@@ -53,7 +53,7 @@ const users_controller = {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      const { password, ...user_without_password } = user;
+      const { password, ...user_without_password } = user; // eslint-disable-line
       res.json(user_without_password);
     } catch (error) {
       next(error);
