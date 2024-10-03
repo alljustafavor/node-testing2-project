@@ -2,7 +2,7 @@ const db = require("../../data/db-config");
 const bcrypt = require("bcrypt");
 
 const User = {
-  async find_all() {
+  async get_all() {
     return await db("users"); 
   },
 
@@ -17,13 +17,13 @@ const User = {
     return this.findById(id);
   },
 
-  async findById(id) {
+  async get_by_id(id) {
     return db("users")
       .where({ id })
       .first();
   },
 
-  async findByEmail(email) {
+  async get_by_email(email) {
     return db("users")
       .where({ email })
       .first();
@@ -39,7 +39,7 @@ const User = {
       .del();
   },
 
-  async updateRole(id, role) {
+  async update_role(id, role) {
     await db('users').where({ id }).update({ role });
     return this.findById(id);
   }

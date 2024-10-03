@@ -1,13 +1,17 @@
 const bcrypt = require('bcrypt');
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  await knex('tasks').del();
-  await knex('categories').del();
-  await knex('users').del();
+  // Deletes ALL existing entries and resets ids
+  await knex.raw('DELETE FROM sqlite_sequence WHERE name IN (?, ?, ?)', ['tasks', 'categories', 'users']);
+  await knex('tasks').truncate();
+  await knex('categories').truncate();
+  await knex('users').truncate();
 
+  // Insert users
   const users = await knex('users').insert([
     {
       username: 'admin_user',
@@ -29,12 +33,14 @@ exports.seed = async function(knex) {
     }
   ]).returning('id');
 
+  // Insert categories
   const categories = await knex('categories').insert([
     { name: 'Work' },
     { name: 'Personal' },
     { name: 'Study' }
   ]).returning('id');
 
+  // Insert tasks
   await knex('tasks').insert([
     {
       title: 'Complete project proposal',

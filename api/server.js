@@ -18,7 +18,7 @@ server.use(cors());
 server.use("/api/auth", auth_router);
 server.use("/api/users", users_router);
 server.use("/api/tasks", tasks_router);
-// server.use("/api/categories", categories_router);
+server.use("/api/categories", categories_router);
 
 server.use(error_handler);
 
